@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yes_no_app/config/theme/app_theme.dart';
+import 'package:yes_no_app/src/models/user_model.dart';
 import 'package:yes_no_app/src/screens/chat/chat_screen.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserModel(),
+      child: const MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
