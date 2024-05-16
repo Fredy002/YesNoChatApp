@@ -1,7 +1,8 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, avoid_print, unused_field
 
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:yes_no_app/src/widgets/chat/her_message_bubble.dart';
 import 'package:yes_no_app/src/widgets/chat/my_message_bubble.dart';
@@ -17,20 +18,47 @@ class _ChatScreenState extends State<ChatScreen> {
   // the image is deleted each time the flutter command is executed or the application is reopened.
   final int _randomNumber = 1 + (10 * Random().nextDouble()).toInt();
 
+  String _name = '';
+  String _avatarUrl = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  Future<void> fetchUserData() async {
+    try {
+      final response =
+          await Dio().get('https://reqres.in/api/users/$_randomNumber');
+      setState(() {
+        _name =
+            '${response.data['data']['first_name']} ${response.data['data']['last_name']}';
+        _avatarUrl = response.data['data']['avatar'];
+      });
+    } catch (e) {
+      print('Failed to load user data: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://reqres.in/img/faces/$_randomNumber-image.jpg'),
-            ),
-          ),
-          title: const Text('Fredy'),
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: _avatarUrl.isNotEmpty
+              ? CircleAvatar(
+                  backgroundImage: NetworkImage(_avatarUrl),
+                )
+              : const CircleAvatar(
+                  child: Icon(Icons.person),
+                ),
         ),
-        body: const _chatView());
+        title: Text(_name.isNotEmpty ? _name : 'Loading...'),
+      ),
+      body: const _chatView(),
+    );
   }
 }
 
@@ -52,7 +80,7 @@ class _chatView extends StatelessWidget {
               },
             ),
           ),
-          const Text('data')
+          const Text('data'),
         ],
       ),
     );
