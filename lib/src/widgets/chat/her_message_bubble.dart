@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:yes_no_app/src/models/user_model.dart';
 
-class HerMessageBubble extends StatelessWidget {
+class HerMessageBubble extends StatefulWidget {
   const HerMessageBubble({super.key});
+
+  @override
+  State<HerMessageBubble> createState() => _HerMessageBubbleState();
+}
+
+class _HerMessageBubbleState extends State<HerMessageBubble> {
+  @override
+  void initState() {
+    super.initState();
+    final userModel = Provider.of<UserModel>(context, listen: false);
+    userModel.fetchUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +58,8 @@ class _ImageBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    final userModel = Provider.of<UserModel>(context);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Image.network(
@@ -58,8 +74,8 @@ class _ImageBubble extends StatelessWidget {
               width: size.width * 0.7,
               height: 150,
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: const Center(
-                child: Text('Name is sending an image'),
+              child:  Center(
+                child: Text('${userModel.name} is sending an image'),
               ));
         },
       ),
