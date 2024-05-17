@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:yes_no_app/src/models/user_model.dart';
 import 'package:yes_no_app/src/widgets/chat/her_message_bubble.dart';
 import 'package:yes_no_app/src/widgets/chat/my_message_bubble.dart';
+import 'package:yes_no_app/src/widgets/shared/message_field_box.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -67,7 +68,7 @@ class _chatView extends StatelessWidget {
               },
             ),
           ),
-          const Text('data'),
+          const MessageFieldBox(),
         ],
       ),
     );
