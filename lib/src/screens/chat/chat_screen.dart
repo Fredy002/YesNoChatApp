@@ -3,38 +3,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yes_no_app/src/models/user_model.dart';
+import 'package:yes_no_app/src/providers/user_provider.dart';
 import 'package:yes_no_app/src/widgets/chat/her_message_bubble.dart';
 import 'package:yes_no_app/src/widgets/chat/my_message_bubble.dart';
 import 'package:yes_no_app/src/widgets/shared/message_field_box.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
-  @override
-  void initState() {
-    super.initState();
-    final userModel = Provider.of<UserModel>(context, listen: false);
-    userModel.fetchUserData();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final userModel = Provider.of<UserModel>(context);
+    final userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(4.0),
-          child: userModel.avatarUrl.isNotEmpty
+          child: userProvider.avatarUrl.isNotEmpty
               ? CircleAvatar(
                   backgroundImage: NetworkImage(
-                    userModel.avatarUrl,
+                    userProvider.avatarUrl,
                   ),
                 )
               : const CircleAvatar(
@@ -42,7 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
         ),
         title: Text(
-          userModel.name.isNotEmpty ? userModel.name : 'Loading...',
+          userProvider.name.isNotEmpty ? userProvider.name : 'Loading...',
         ),
       ),
       body: const _chatView(),
