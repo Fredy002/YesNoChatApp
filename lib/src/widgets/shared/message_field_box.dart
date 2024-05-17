@@ -9,6 +9,8 @@ class MessageFieldBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final textController = TextEditingController();
 
+    final focusNode = FocusNode();
+
     final outlineInputBorder = UnderlineInputBorder(
       borderSide: const BorderSide(
         color: Colors.transparent,
@@ -35,10 +37,15 @@ class MessageFieldBox extends StatelessWidget {
     );
 
     return TextFormField(
+      onTapOutside: (event) {
+        focusNode.unfocus();
+      },
+      focusNode: focusNode,
       controller: textController,
       decoration: inputDecoration,
       onFieldSubmitted: (value) {
         print('Submid value $value');
+        focusNode.requestFocus();
       },
     );
   }
