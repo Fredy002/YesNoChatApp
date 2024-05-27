@@ -12,7 +12,7 @@ class ChatProvider extends ChangeNotifier {
       fromWho: FromWho.me,
     ),
     Message(
-      text: 'On ta bebe?',
+      text: 'Ask me a question!',
       fromWho: FromWho.me,
     ),
   ];
